@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { SearchManufacturer } from ".";
 import { useRouter } from "next/navigation";
 
@@ -25,6 +25,14 @@ const SearchBar = () => {
   const [model, setModel] = useState("");
   const router = useRouter();
 
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const scrollToForm = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -33,6 +41,9 @@ const SearchBar = () => {
     }
 
     updateSearchParams(model.toLowerCase(), manufacturer.toLowerCase());
+    setTimeout(() => {
+      scrollToForm();
+    }, 50);
   };
 
   const updateSearchParams = (model: string, manufacturer: string) => {
@@ -58,7 +69,7 @@ const SearchBar = () => {
   };
 
   return (
-    <form className="searchbar" onSubmit={handleSearch}>
+    <form className="searchbar" ref={formRef} onSubmit={handleSearch}>
       <div className="searchbar__item">
         <SearchManufacturer
           manufacturer={manufacturer}
