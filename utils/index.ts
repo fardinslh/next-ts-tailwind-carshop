@@ -8,14 +8,12 @@ export async function fetchCars(filters: FilterProps) {
     "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",
   };
 
-  const response = await fetch(
+  const response: Response = await fetch(
     `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${manufacturer}&year=${year}&model=${model}&limit=${limit}&fuel_type=${fuel}`,
     {
       headers: headers,
     }
-  ).catch((error) => {
-    console.error("Fetch error: ", error);
-  });
+  );
 
   const result = await response.json();
 
@@ -59,5 +57,5 @@ export const updateSearchParams = (type: string, value: string) => {
 
   const newPathname = `${window.location.pathname}?${searchParams.toString()}`;
 
-  return newPathname
+  return newPathname;
 };
